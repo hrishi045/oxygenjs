@@ -1,2 +1,1 @@
 const Parser = require('./Parser');
-

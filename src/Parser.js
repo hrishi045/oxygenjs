@@ -2,7 +2,7 @@ const a = require('arcsecond');
 
 const Parser = {};
 
-Parser.OStringLiteral = a.sequenceOf([
+Parser.StringLiteral = a.sequenceOf([
     a.char('"'),
     a.many(a.choice([
         a.letters,
@@ -13,5 +13,31 @@ Parser.OStringLiteral = a.sequenceOf([
     ])).map(x => x.join("")),
     a.char('"'),
 ]);
+
+function numberLiteral(min, max, unsigned) {
+    const numeric = a.digits.chain(numStr => {
+        const numVal = BigInt(numStr);
+
+        if (numVal > BigInt(max) || numVal < BigInt(min)) {
+            return a.fail();
+        }
+
+        return a.succeedWith(numStr);
+    });
+
+    if (unsigned) {
+        return numeric;
+    } else {
+        return a.sequenceOf([
+            a.possibly(a.char('-')),
+            numeric,
+        ]);
+    }
+}
+
+Parser.Integer32Literal = numberLiteral(-(2n**31n-1n), 2n**31n, false);
+Parser.UnsignedInteger32Literal = numberLiteral(0n, 2n**32n-1n, true);
+Parser.Integer64Literal = numberLiteral(-(2n**63n-1n), 2n**63n, false);
+Parser.UnsignedInteger64Literal = numberLiteral(0n, 2n**64n, true);
 
 module.exports = Parser;
