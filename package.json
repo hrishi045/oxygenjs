@@ -1,0 +1,20 @@
+{
+  "name": "oxygenjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node src/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "arcsecond": "^2.0.3",
+    "llvm-ir": "^1.8.0"
+  },
+  "devDependencies": {
+    "mocha": "^7.0.1"
+  }
+}
