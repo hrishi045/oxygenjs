@@ -40,4 +40,18 @@ Parser.UnsignedInteger32Literal = numberLiteral(0n, 2n**32n-1n, true);
 Parser.Integer64Literal = numberLiteral(-(2n**63n-1n), 2n**63n, false);
 Parser.UnsignedInteger64Literal = numberLiteral(0n, 2n**64n, true);
 
+Parser.SingleLineComment = a.between(a.str('//'))(a.char('\n'));
+
+Parser.Identifier = a.sequenceOf([
+    a.choice([
+        a.letter,
+        a.char('_'),
+    ]),
+    a.many(a.choice([
+        a.letter,
+        a.digit,
+        a.char('_'),
+    ])).map(a => a.join('')),
+]).map(a => a.join(''));
+
 module.exports = Parser;

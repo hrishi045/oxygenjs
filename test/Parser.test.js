@@ -101,4 +101,36 @@ describe("Parser", function () {
             assert(e.isError);
         });
     });
+
+    describe("Identifier", function() {
+        it("should parse single-letter identifiers", function() {
+            const e = Parser.Identifier.run("a");
+            assert.equal(e.result, "a");
+        });
+
+        it("should parse multi-letter identifiers", function() {
+            const e = Parser.Identifier.run("foo");
+            assert.equal(e.result, "foo");
+        });
+
+        it("should parse identifiers with numbers", function() {
+            const e = Parser.Identifier.run("bar123");
+            assert.equal(e.result, "bar123");
+        });
+
+        it("should parse identifiers with underscores", function() {
+            const e = Parser.Identifier.run("foo_123");
+            assert.equal(e.result, "foo_123");
+        });
+
+        it("should parse identifiers beginning with underscores", function() {
+            const e = Parser.Identifier.run("_123");
+            assert.equal(e.result, "_123");
+        });
+
+        it("should not parse identifiers beginning with numbers", function() {
+            const e = Parser.Identifier.run("1foo");
+            assert(e.isError);
+        });
+    })
 });
